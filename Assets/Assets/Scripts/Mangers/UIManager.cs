@@ -12,6 +12,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TMP_Dropdown resourcesDropDown;
     [Space]
     [SerializeField] private UIBlockInfo blockInfo;
+    [SerializeField] private UICalcResult calcResultPanel;
 
 
     private int resourceCount = 0;
@@ -28,6 +29,9 @@ public class UIManager : MonoBehaviour
         resourcesDropDown.onValueChanged.AddListener(OnResourceTypeCahnged);
 
         resourcesCalculator = new ResourcesCalculator(entitiesDatabase);
+        
+        blockInfo.gameObject.SetActive(false);
+        calcResultPanel.gameObject.SetActive(false);
     }
 
     public void Init(ResourceDataObj[] resourcesList)
@@ -45,10 +49,16 @@ public class UIManager : MonoBehaviour
 
     private void CalculateRecipes()
     {
-        // temp return block data
-        var blockData = resourcesCalculator.Calculate(entitiesDatabase.resources[selectedResourceIndex], resourceCount);
+        var calcResult = resourcesCalculator.Calculate(entitiesDatabase.resources[selectedResourceIndex], resourceCount);
 
-        blockInfo.Init(blockData); //debug
+        if (calcResult.recipeBlockData != null)
+        {
+            blockInfo.gameObject.SetActive(true);
+            calcResultPanel.gameObject.SetActive(true);
+
+            blockInfo.Init(calcResult.recipeBlockData);
+            calcResultPanel.Init(calcResult);
+        }
     }
 
     private void OnResourceValueChanged(string inputString)

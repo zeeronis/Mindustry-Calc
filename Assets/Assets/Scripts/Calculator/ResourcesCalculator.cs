@@ -14,9 +14,17 @@ public class ResourcesCalculator
         this.databaseObject = databaseObject;
     }
 
-    public BlockDataObj Calculate(ResourceDataObj resourceData, float reqCount)
+    public CalculationResult Calculate(ResourceDataObj resourceData, float reqCount)
     {
+        CalculationResult calculationResult = default;
+
         var recipes = databaseObject.GetRecipes(resourceData);
+        if (recipes.Count == 0)
+        {
+            Debug.LogWarning($"No recipes found for {resourceData.Name} resource");
+            return calculationResult;
+        }
+
         var recipe = recipes[0];
 
         ResourceStack outputResource = recipe.OutputResource.GetNormalizedToSecond(recipe.ProduceTime);
@@ -28,18 +36,12 @@ public class ResourcesCalculator
             inputResources[i] = recipe.InputResources[i].Get(recipe.ProduceTime, percentOfReq);
         }
 
-        int reqBlocksCout = Mathf.CeilToInt(reqCount / outputResource.count);
+        int blocksUseCount = Mathf.CeilToInt(reqCount / outputResource.count);
+        calculationResult.powerUse = recipe.InputEnergy * blocksUseCount;
+        calculationResult.inputResources = inputResources;
+        calculationResult.blocksUseCount = blocksUseCount;
+        calculationResult.recipeBlockData = recipe;
 
-        Debug.Log($"***");
-        Debug.Log($"reqResCount: {reqCount}");
-        Debug.Log($"reqBlocksCount: {reqBlocksCout}");
-        Debug.Log($"reqPower: {recipe.InputEnergy * reqBlocksCout}");
-        foreach (var item in inputResources)
-        {
-            Debug.Log($"inputRes: {item.resourceData.Name} {item.count}");
-         //   Debug.Log($"inputPower: {recipe.=}");
-        }
-
-        return recipe;
+        return calculationResult;
     }
 }
