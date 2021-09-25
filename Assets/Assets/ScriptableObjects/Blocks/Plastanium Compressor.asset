@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3af22bdfb7317044a78feb678e0fda3, type: 3}
+  m_Name: Plastanium Compressor
+  m_EditorClassIdentifier: 
+  name: Plastanium Compressor
+  sprite: {fileID: 21300000, guid: 4ed3cde2f61485f4c96f126f2b4658a6, type: 3}
+  inputResources:
+  - resourceData: {fileID: 11400000, guid: 49b432e23bbe24245960697f1547cc98, type: 2}
+    count: 2
+  - resourceData: {fileID: 11400000, guid: 325685de767c61642afd7f27ba6e1f29, type: 2}
+    count: 15
+  outputResource:
+    resourceData: {fileID: 11400000, guid: a13c35902847fef419b8f4484ed51eca, type: 2}
+    count: 1
+  inputEnergy: 180
+  produceTime: 1

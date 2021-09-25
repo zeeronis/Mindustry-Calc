@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3af22bdfb7317044a78feb678e0fda3, type: 3}
+  m_Name: Alloy Smelter
+  m_EditorClassIdentifier: 
+  name: Alloy Smelter
+  sprite: {fileID: 21300000, guid: 22b083783cfdca0429435247247c0a75, type: 3}
+  inputResources:
+  - resourceData: {fileID: 11400000, guid: 5d55c525eac6c5942b2e5df7a195961b, type: 2}
+    count: 3
+  - resourceData: {fileID: 11400000, guid: fdd01fcb90204d54f80e26641c5db35b, type: 2}
+    count: 4
+  - resourceData: {fileID: 11400000, guid: 49b432e23bbe24245960697f1547cc98, type: 2}
+    count: 2
+  - resourceData: {fileID: 11400000, guid: bb090e06f8e2a1941b11a7a0625b2610, type: 2}
+    count: 3
+  outputResource:
+    resourceData: {fileID: 11400000, guid: cae61426a34f82c4397ef762d5188d43, type: 2}
+    count: 1
+  inputEnergy: 240
+  produceTime: 1.25

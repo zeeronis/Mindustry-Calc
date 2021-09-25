@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3af22bdfb7317044a78feb678e0fda3, type: 3}
+  m_Name: Cryofluid Mixer
+  m_EditorClassIdentifier: 
+  name: Cryofluid Mixer
+  sprite: {fileID: 21300000, guid: ab646699283a7264cacc4144641cfdef, type: 3}
+  inputResources:
+  - resourceData: {fileID: 11400000, guid: 49b432e23bbe24245960697f1547cc98, type: 2}
+    count: 1
+  - resourceData: {fileID: 11400000, guid: fb0f82e333c079c44a2e2e9c97a59281, type: 2}
+    count: 12
+  outputResource:
+    resourceData: {fileID: 0}
+    count: 12
+  inputEnergy: 60
+  produceTime: 2
