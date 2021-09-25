@@ -16,4 +16,9 @@ public class EntityDataObj : ScriptableObject
     {
         ID = id;
     }
+
+    public void SetID1()
+    {
+        name = "123";
+    }
 }

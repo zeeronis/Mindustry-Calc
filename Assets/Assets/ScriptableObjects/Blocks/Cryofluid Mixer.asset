@@ -20,7 +20,7 @@ MonoBehaviour:
   - resourceData: {fileID: 11400000, guid: fb0f82e333c079c44a2e2e9c97a59281, type: 2}
     count: 12
   outputResource:
-    resourceData: {fileID: 0}
+    resourceData: {fileID: 11400000, guid: c23c426bd97a0b045bf90c8ae8a244f8, type: 2}
     count: 12
   inputEnergy: 60
   produceTime: 2
