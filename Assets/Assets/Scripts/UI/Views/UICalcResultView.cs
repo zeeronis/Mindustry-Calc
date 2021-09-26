@@ -2,7 +2,7 @@
 using UnityEngine;
 using TMPro;
 
-public class UICalcResult : MonoBehaviour
+public class UICalcResultView : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI powerUseText;
     [SerializeField] TextMeshProUGUI blocksUseText;

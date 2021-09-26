@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Lead
   sprite: {fileID: 21300000, guid: 73f24a232140bd04d888e3e423e6feb5, type: 3}
+  isLiquid: 0

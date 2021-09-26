@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Titanium
   sprite: {fileID: 21300000, guid: 14a59b5e90bd5f34ea84afa5b0453275, type: 3}
+  isLiquid: 0

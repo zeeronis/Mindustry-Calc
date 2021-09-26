@@ -12,13 +12,19 @@ public class EntityDataObj : ScriptableObject
     public Sprite Sprite => sprite;
 
 
+    public EntityDataObj()
+    {
+       
+    }
+
+    public EntityDataObj(string name, Sprite sprite)
+    {
+        this.name = name;
+        this.sprite = sprite;
+    }
+
     public void SetID(int id)
     {
         ID = id;
-    }
-
-    public void SetID1()
-    {
-        name = "123";
     }
 }

@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Scrap
   sprite: {fileID: 21300000, guid: 350c7bd11bcb8564ea818d3418a501ea, type: 3}
+  isLiquid: 0

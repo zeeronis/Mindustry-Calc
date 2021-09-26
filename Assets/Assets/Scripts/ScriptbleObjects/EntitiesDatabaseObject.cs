@@ -4,9 +4,20 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "EntitiesDatabaseObject", menuName = "Mindustry/EntitiesDatabaseObject", order = 0)]
 public class EntitiesDatabaseObject : ScriptableObject
 {
-    public ResourceDataObj[] resources;
-    public BlockDataObj[] blocks;
+    [SerializeField] private ResourceDataObj[] resources;
+    [SerializeField] private BlockDataObj[] blocks;
+    [SerializeField] private BlockPumpDataObj[] pumps;
 
+    [HideInInspector] public List<BlockDataObj> recipes;
+    public ResourceDataObj[] Resources => resources;
+
+
+#if UNITY_EDITOR
+    private void OnDestroy()
+    {
+        recipes?.Clear();
+    }
+#endif
 
     public void Init()
     {
@@ -15,10 +26,24 @@ public class EntitiesDatabaseObject : ScriptableObject
             resources[i].SetID(i);
         }
 
-        for (int i = 0; i < blocks.Length; i++)
+        recipes = new List<BlockDataObj>(blocks);
+        foreach (BlockPumpDataObj pump in pumps)
         {
-            blocks[i].SetID(i);
-           // blocks[i].SetID1();
+            foreach (ResourceStack liquidRes in pump.AvailableFluids)
+            {
+                recipes.Add(new BlockDataObj(
+                    pump.Name,
+                    pump.Sprite,
+                    System.Array.Empty<ResourceStack>(),
+                    liquidRes,
+                    pump.InputEnergy,
+                    1));
+            }
+        }
+
+        for (int i = 0; i < recipes.Count; i++)
+        {
+            recipes[i].SetID(i);
         }
     }
 
@@ -29,15 +54,15 @@ public class EntitiesDatabaseObject : ScriptableObject
 
     public List<BlockDataObj> GetRecipes(ResourceDataObj resourceDataObj)
     {
-        var recipes = new List<BlockDataObj>();
-        foreach (var item in blocks)
+        var avaliableRecipes = new List<BlockDataObj>();
+        foreach (var item in recipes)
         {
             if (item.OutputResource.resourceData.ID == resourceDataObj.ID)
             {
-                recipes.Add(item);
+                avaliableRecipes.Add(item);
             }
         }
 
-        return recipes;
+        return avaliableRecipes;
     }
 }

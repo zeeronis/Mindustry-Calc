@@ -11,8 +11,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TMP_InputField resCountInputField;
     [SerializeField] private TMP_Dropdown resourcesDropDown;
     [Space]
-    [SerializeField] private UIBlockFullInfo blockInfo;
-    [SerializeField] private UICalcResult calcResultPanel;
+    [SerializeField] private UIBlockFullInfoView blockInfo;
+    [SerializeField] private UICalcResultView calcResultPanel;
     [SerializeField] private UIRecipesView recipesView;
 
 
@@ -26,7 +26,7 @@ public class UIManager : MonoBehaviour
     private void Awake()
     {
         entitiesDatabase.Init();
-        Init(entitiesDatabase.resources);
+        Init(entitiesDatabase.Resources);
 
         recipesView.OnItemChanged += OnRecipeItemChanged;
         resCountInputField.onValueChanged.AddListener(OnResourceValueChanged);
@@ -104,7 +104,7 @@ public class UIManager : MonoBehaviour
         {
             blockInfo.gameObject.SetActive(false);
             recipesView.gameObject.SetActive(false);
-            Debug.LogWarning($"No recipes found for {entitiesDatabase.resources[selectedResourceIndex].Name} resource");
+            Debug.LogWarning($"No recipes found for {entitiesDatabase.Resources[selectedResourceIndex].Name} resource");
         }
     }
 

@@ -5,15 +5,12 @@ using UnityEngine;
 [CustomPropertyDrawer(typeof(ResourceStack))]
 public class ResourceStackDrawer : PropertyDrawer
 {
-    private string name;
-    private bool cache = false;
-
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
     {
         Rect contentPosition = EditorGUI.PrefixLabel(position, label);
 
         float fullWidth = contentPosition.width;
-        const float resCountWidth = 30;
+        const float resCountWidth = 35;
         const float resCountRightOffset = 5;
         const float resTexRightOffset = 5;
         const float resourceObjRightOffset = 20;

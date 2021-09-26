@@ -9,14 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d3af22bdfb7317044a78feb678e0fda3, type: 3}
+  m_Script: {fileID: 11500000, guid: fa9f86e133cea7f4d99ca2c7beae3ed1, type: 3}
   m_Name: Mechanical Pump
   m_EditorClassIdentifier: 
   name: Mechanical Pump
   sprite: {fileID: 21300000, guid: 86a5442e38a3ad241bf70200ac654417, type: 3}
-  inputResources: []
-  outputResource:
-    resourceData: {fileID: 11400000, guid: fb0f82e333c079c44a2e2e9c97a59281, type: 2}
+  availableFluids:
+  - resourceData: {fileID: 11400000, guid: fb0f82e333c079c44a2e2e9c97a59281, type: 2}
+    count: 7
+  - resourceData: {fileID: 11400000, guid: 325685de767c61642afd7f27ba6e1f29, type: 2}
     count: 7
   inputEnergy: 0
-  produceTime: 1

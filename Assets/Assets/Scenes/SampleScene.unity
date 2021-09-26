@@ -1694,7 +1694,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 43242c565b43d3c438ac40d45cc730dd, type: 3}
+  m_Script: {fileID: 11500000, guid: 3c23e7c4c436c9344abab55fa3ae249e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1987348173
@@ -2117,7 +2117,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1085740659820839046, guid: ca46750f734b36d43800e8c59de586e3, type: 3}
       propertyPath: m_Name
-      value: CalcResult
+      value: CalcResultView
       objectReference: {fileID: 0}
     - target: {fileID: 1085740659820839047, guid: ca46750f734b36d43800e8c59de586e3, type: 3}
       propertyPath: m_Pivot.x
@@ -2470,7 +2470,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6047923904306210839, guid: a4150815b2aca70478af074c92c5d12e, type: 3}
       propertyPath: m_Name
-      value: BlockFullInfo
+      value: BlockFullInfoView
       objectReference: {fileID: 0}
     - target: {fileID: 6047923904306210839, guid: a4150815b2aca70478af074c92c5d12e, type: 3}
       propertyPath: m_IsActive

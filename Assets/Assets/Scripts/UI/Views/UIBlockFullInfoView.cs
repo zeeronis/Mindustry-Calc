@@ -4,7 +4,7 @@ using UnityEngine.UI;
 using TMPro;
 using System.Collections.Generic;
 
-public class UIBlockFullInfo : MonoBehaviour
+public class UIBlockFullInfoView : MonoBehaviour
 {
     [SerializeField] private UIResourceItem resourceItemPrefab;
     [Space]
