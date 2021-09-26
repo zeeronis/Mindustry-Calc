@@ -11,12 +11,15 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TMP_InputField resCountInputField;
     [SerializeField] private TMP_Dropdown resourcesDropDown;
     [Space]
-    [SerializeField] private UIBlockInfo blockInfo;
+    [SerializeField] private UIBlockFullInfo blockInfo;
     [SerializeField] private UICalcResult calcResultPanel;
+    [SerializeField] private UIRecipesView recipesView;
 
 
     private int resourceCount = 0;
     private int selectedResourceIndex = 0;
+    private int selectedRecipeIndex = 0;
+    private List<BlockDataObj> recipes;
     private ResourcesCalculator resourcesCalculator;
 
 
@@ -25,14 +28,22 @@ public class UIManager : MonoBehaviour
         entitiesDatabase.Init();
         Init(entitiesDatabase.resources);
 
+        recipesView.OnItemChanged += OnRecipeItemChanged;
         resCountInputField.onValueChanged.AddListener(OnResourceValueChanged);
-        resourcesDropDown.onValueChanged.AddListener(OnResourceTypeCahnged);
+        resourcesDropDown.onValueChanged.AddListener(OnResourceTypeChanged);
 
         resourcesCalculator = new ResourcesCalculator(entitiesDatabase);
         
-        blockInfo.gameObject.SetActive(false);
+        blockInfo.gameObject.SetActive(true);
+        recipesView.gameObject.SetActive(true);
         calcResultPanel.gameObject.SetActive(false);
     }
+
+    private void Start()
+    {
+        OnResourceTypeChanged(0);
+    }
+
 
     public void Init(ResourceDataObj[] resourcesList)
     {
@@ -49,16 +60,20 @@ public class UIManager : MonoBehaviour
 
     private void CalculateRecipes()
     {
-        var calcResult = resourcesCalculator.Calculate(entitiesDatabase.resources[selectedResourceIndex], resourceCount);
+        var calcResult = resourcesCalculator.Calculate(recipes[selectedRecipeIndex], resourceCount);
 
         if (calcResult.recipeBlockData != null)
         {
-            blockInfo.gameObject.SetActive(true);
             calcResultPanel.gameObject.SetActive(true);
-
-            blockInfo.Init(calcResult.recipeBlockData);
             calcResultPanel.Init(calcResult);
         }
+    }
+
+    private void OnRecipeItemChanged(int index)
+    {
+        selectedRecipeIndex = index;
+        blockInfo.Init(recipes[selectedRecipeIndex]);
+        CalculateRecipes();
     }
 
     private void OnResourceValueChanged(string inputString)
@@ -70,9 +85,27 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    private void OnResourceTypeCahnged(int selectedIndex)
+    private void OnResourceTypeChanged(int selectedIndex)
     {
         selectedResourceIndex = selectedIndex;
-        CalculateRecipes();
+
+        recipes = entitiesDatabase.GetRecipes(selectedResourceIndex);
+
+        if (recipes != null && recipes.Count > 0)
+        {
+            blockInfo.gameObject.SetActive(true);
+            recipesView.gameObject.SetActive(true);
+
+            recipesView.Init(recipes);
+
+            OnRecipeItemChanged(0);
+        }
+        else
+        {
+            blockInfo.gameObject.SetActive(false);
+            recipesView.gameObject.SetActive(false);
+            Debug.LogWarning($"No recipes found for {entitiesDatabase.resources[selectedResourceIndex].Name} resource");
+        }
     }
+
 }

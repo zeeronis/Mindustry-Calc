@@ -14,18 +14,9 @@ public class ResourcesCalculator
         this.databaseObject = databaseObject;
     }
 
-    public CalculationResult Calculate(ResourceDataObj resourceData, float reqCount)
+    public CalculationResult Calculate(BlockDataObj recipe, float reqCount)
     {
         CalculationResult calculationResult = default;
-
-        var recipes = databaseObject.GetRecipes(resourceData);
-        if (recipes.Count == 0)
-        {
-            Debug.LogWarning($"No recipes found for {resourceData.Name} resource");
-            return calculationResult;
-        }
-
-        var recipe = recipes[0];
 
         ResourceStack outputResource = recipe.OutputResource.GetNormalizedToSecond(recipe.ProduceTime);
         float percentOfReq = outputResource.count / reqCount;

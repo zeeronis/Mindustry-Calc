@@ -1077,12 +1077,13 @@ GameObject:
   m_Component:
   - component: {fileID: 6047923904306210838}
   - component: {fileID: 2366995576848107774}
+  - component: {fileID: 7708823111834698726}
   - component: {fileID: 6047923904306210859}
   - component: {fileID: 6047923904306210856}
   - component: {fileID: 6047923904306210857}
   - component: {fileID: 6047923904306210858}
   m_Layer: 5
-  m_Name: BlockInfo
+  m_Name: BlockFullInfo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1132,6 +1133,21 @@ MonoBehaviour:
   productionTimeText: {fileID: 6047923903649379734}
   inputResourcesView: {fileID: 4387488771332039274}
   outputResourceItem: {fileID: 3389801954337946722}
+--- !u!114 &7708823111834698726
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6047923904306210839}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3bc25acf740eaf146a5207511c763ae7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myTransform: {fileID: 6047923904306210838}
+  topObjectTransrom: {fileID: 0}
+  offsetY: -38
 --- !u!222 &6047923904306210859
 CanvasRenderer:
   m_ObjectHideFlags: 0

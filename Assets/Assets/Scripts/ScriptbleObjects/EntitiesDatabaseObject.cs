@@ -22,6 +22,11 @@ public class EntitiesDatabaseObject : ScriptableObject
         }
     }
 
+    public List<BlockDataObj> GetRecipes(int resourceIndex)
+    {
+        return GetRecipes(resources[resourceIndex]);
+    }
+
     public List<BlockDataObj> GetRecipes(ResourceDataObj resourceDataObj)
     {
         var recipes = new List<BlockDataObj>();
