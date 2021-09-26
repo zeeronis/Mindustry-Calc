@@ -10,7 +10,7 @@ public class UIAlignByTopObject : MonoBehaviour
 
     private void Update()
     {
-        AlignPosition(); // TODO optimize UIAlignByTopObject
+        AlignPosition(); // TODO: remove from update
     }
 
     public void AlignPosition()

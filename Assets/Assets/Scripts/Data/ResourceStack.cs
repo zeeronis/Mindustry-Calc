@@ -22,16 +22,20 @@ public struct ResourceStack
         return new ResourceStack()
         {
             resourceData = resourceData,
-            count = count / produceTime
+            count = resourceData.IsLiquid 
+            ? count
+            : count / produceTime
         };
     }
 
-    public ResourceStack Get(float produceTime, float percentOfReq)
+    public ResourceStack GetNormalizedByOutput(float produceTime, float percentOfReq)
     {
         return new ResourceStack()
         {
             resourceData = resourceData,
-            count = count / produceTime / percentOfReq
+            count = resourceData.IsLiquid 
+                ? count / percentOfReq
+                : count / produceTime / percentOfReq
         };
     }
 }

@@ -14,20 +14,21 @@ public class ResourcesCalculator
         this.databaseObject = databaseObject;
     }
 
-    public CalculationResult Calculate(BlockDataObj recipe, float reqCount)
+    public CalculationResult Calculate(BlockDataObj recipe, float reqCount) 
     {
         CalculationResult calculationResult = default;
 
         ResourceStack outputResource = recipe.OutputResource.GetNormalizedToSecond(recipe.ProduceTime);
         float percentOfReq = outputResource.count / reqCount;
+        int blocksUseCount = Mathf.CeilToInt(reqCount / outputResource.count);
 
         ResourceStack[] inputResources = new ResourceStack[recipe.InputResources.Length];
         for (int i = 0; i < inputResources.Length; i++)
         {
-            inputResources[i] = recipe.InputResources[i].Get(recipe.ProduceTime, percentOfReq);
+            inputResources[i] = recipe.InputResources[i].GetNormalizedByOutput(recipe.ProduceTime, percentOfReq);
         }
 
-        int blocksUseCount = Mathf.CeilToInt(reqCount / outputResource.count);
+
         calculationResult.powerUse = recipe.InputEnergy * blocksUseCount;
         calculationResult.inputResources = inputResources;
         calculationResult.blocksUseCount = blocksUseCount;
