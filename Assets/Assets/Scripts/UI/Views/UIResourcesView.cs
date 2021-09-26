@@ -42,7 +42,6 @@ public class UIResourcesView : MonoBehaviour
         }
 
         DestroyItems();
-
         foreach (ResourceStack resourceStack in resourceStacks)
         {
             var uiResourceItem = Instantiate(resourceItemPrefab, contentTransform);
@@ -52,5 +51,6 @@ public class UIResourcesView : MonoBehaviour
         }
 
         FitSize();
+        gameObject.SetActive(resourceStacks.Length != 0);
     }
 }

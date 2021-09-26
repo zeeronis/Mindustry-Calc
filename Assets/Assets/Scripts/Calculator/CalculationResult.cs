@@ -5,4 +5,5 @@ public struct CalculationResult
     public int blocksUseCount;
     public BlockDataObj recipeBlockData;
     public ResourceStack[] inputResources;
+    public ResourceStack outputResource;
 }

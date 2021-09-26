@@ -28,9 +28,11 @@ public class ResourcesCalculator
             inputResources[i] = recipe.InputResources[i].GetNormalizedByOutput(recipe.ProduceTime, percentOfReq);
         }
 
+        outputResource.count = reqCount;
 
         calculationResult.powerUse = recipe.InputEnergy * blocksUseCount;
         calculationResult.inputResources = inputResources;
+        calculationResult.outputResource = outputResource;
         calculationResult.blocksUseCount = blocksUseCount;
         calculationResult.recipeBlockData = recipe;
 

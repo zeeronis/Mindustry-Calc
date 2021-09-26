@@ -6,13 +6,17 @@ public class UICalcResultView : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI powerUseText;
     [SerializeField] TextMeshProUGUI blocksUseText;
-    [SerializeField] UIResourcesView resourcesView;
-
+    [Space]
+    [SerializeField] UIResourceItem outputResourceItem;
+    [SerializeField] UIResourcesView inputResourcesView;
+    
 
     public void Init(in CalculationResult calculationResult)
     {
         blocksUseText.text = $"Blocks Use: {calculationResult.blocksUseCount}";
         powerUseText.text = $"Power Use: {calculationResult.powerUse}/sec";
-        resourcesView.Init(calculationResult.inputResources);
+
+        inputResourcesView.Init(calculationResult.inputResources);
+        outputResourceItem.Init(calculationResult.outputResource);
     }
 }
