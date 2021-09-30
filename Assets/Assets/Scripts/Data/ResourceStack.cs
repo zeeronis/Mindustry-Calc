@@ -22,7 +22,7 @@ public struct ResourceStack
         return new ResourceStack()
         {
             resourceData = resourceData,
-            count = resourceData.IsLiquid 
+            count = resourceData.IsLiquid
             ? count
             : count / produceTime
         };
@@ -33,9 +33,20 @@ public struct ResourceStack
         return new ResourceStack()
         {
             resourceData = resourceData,
-            count = resourceData.IsLiquid 
+            count = resourceData.IsLiquid
                 ? count / percentOfReq
                 : count / produceTime / percentOfReq
+        };
+    }
+
+    public ResourceStack GetNormalizedToSencondAndBlocksCount(float produceTime, float blocksCount)
+    {
+        return new ResourceStack()
+        {
+            resourceData = resourceData,
+            count = resourceData.IsLiquid
+                ? count * blocksCount
+                : count / produceTime * blocksCount
         };
     }
 }

@@ -10,15 +10,18 @@ public class UIManager : MonoBehaviour
     [Space]
     [SerializeField] private TMP_InputField resCountInputField;
     [SerializeField] private TMP_Dropdown resourcesDropDown;
+    [SerializeField] private TMP_Dropdown calcTypeDropDown;
     [Space]
     [SerializeField] private UIBlockFullInfoView blockInfo;
     [SerializeField] private UICalcResultView calcResultPanel;
     [SerializeField] private UIRecipesView recipesView;
 
 
-    private int resourceCount = 0;
+    private float itemsCount = 0;
     private int selectedResourceIndex = 0;
     private int selectedRecipeIndex = 0;
+    private CalculationType calculationType;
+
     private List<BlockDataObj> recipes;
     private ResourcesCalculator resourcesCalculator;
 
@@ -31,6 +34,7 @@ public class UIManager : MonoBehaviour
         recipesView.OnItemChanged += OnRecipeItemChanged;
         resCountInputField.onValueChanged.AddListener(OnResourceValueChanged);
         resourcesDropDown.onValueChanged.AddListener(OnResourceTypeChanged);
+        calcTypeDropDown.onValueChanged.AddListener(OnCalculationTypeChanged);
 
         resourcesCalculator = new ResourcesCalculator(entitiesDatabase);
         
@@ -48,6 +52,8 @@ public class UIManager : MonoBehaviour
     public void Init(ResourceDataObj[] resourcesList)
     {
         resourcesDropDown.ClearOptions();
+        calcTypeDropDown.ClearOptions();
+
 
         var optionsList = new List<TMP_Dropdown.OptionData>();
         foreach (ResourceDataObj resDataObj in resourcesList)
@@ -56,11 +62,33 @@ public class UIManager : MonoBehaviour
         }
 
         resourcesDropDown.AddOptions(optionsList);
+        
+        
+        optionsList.Clear();
+        foreach (var itemName in Enum.GetNames(typeof(CalculationType)))
+        {
+            optionsList.Add(new TMP_Dropdown.OptionData(itemName));
+        }
+
+        calcTypeDropDown.AddOptions(optionsList);
+    }
+
+    private bool CanCalculateRecipe()
+    {
+        if (selectedRecipeIndex < recipes.Count)
+            return true;
+
+        return false;
     }
 
     private void CalculateRecipes()
     {
-        var calcResult = resourcesCalculator.Calculate(recipes[selectedRecipeIndex], resourceCount);
+        if (!CanCalculateRecipe())
+            return;
+
+        CalculationResult calcResult = calculationType == CalculationType.Resources
+            ? resourcesCalculator.CalculateByOutputResourceCount(recipes[selectedRecipeIndex], itemsCount)
+            : resourcesCalculator.CalculateByBlocksCount(recipes[selectedRecipeIndex], itemsCount);
 
         if (calcResult.recipeBlockData != null)
         {
@@ -72,17 +100,24 @@ public class UIManager : MonoBehaviour
     private void OnRecipeItemChanged(int index)
     {
         selectedRecipeIndex = index;
+
         blockInfo.Init(recipes[selectedRecipeIndex]);
         CalculateRecipes();
     }
 
     private void OnResourceValueChanged(string inputString)
     {
-        if (int.TryParse(inputString, out int count))
+        if (float.TryParse(inputString.Replace('.', ','), out float count))
         {
-            resourceCount = count;
+            itemsCount = count;
             CalculateRecipes();
         }
+    }
+
+    private void OnCalculationTypeChanged(int index)
+    {
+        calculationType = (CalculationType)index;
+        CalculateRecipes();
     }
 
     private void OnResourceTypeChanged(int selectedIndex)
