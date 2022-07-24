@@ -107,6 +107,8 @@ public class UIManager : MonoBehaviour
 
     private float ParseString_WebGL(string input)
     {
+        input = input.Replace('.', ',');
+
         int pos = input.IndexOf(",");
         if (pos < 0) 
             return float.Parse(input);
