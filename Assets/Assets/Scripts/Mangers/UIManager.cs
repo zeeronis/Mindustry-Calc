@@ -88,7 +88,7 @@ public class UIManager : MonoBehaviour
 
         CalculationResult calcResult = calculationType == CalculationType.Resources
             ? resourcesCalculator.CalculateByOutputResourceCount(recipes[selectedRecipeIndex], itemsCount)
-            : resourcesCalculator.CalculateByBlocksCount(recipes[selectedRecipeIndex], itemsCount);
+            : resourcesCalculator.CalculateByBlocksCount(recipes[selectedRecipeIndex], (int)itemsCount);
 
         if (calcResult.recipeBlockData != null)
         {
@@ -105,13 +105,24 @@ public class UIManager : MonoBehaviour
         CalculateRecipes();
     }
 
+    private float ParseString_WebGL(string input)
+    {
+        int pos = input.IndexOf(",");
+        if (pos < 0) 
+            return float.Parse(input);
+
+        int power = input.Length - pos - 1;
+
+        float value = float.Parse(input.Remove(pos, 1));
+        float divideBy = Mathf.Pow(10, power);
+
+        return value / divideBy;
+    }
+
     private void OnResourceValueChanged(string inputString)
     {
-        if (float.TryParse(inputString.Replace('.', ','), out float count))
-        {
-            itemsCount = count;
-            CalculateRecipes();
-        }
+        itemsCount = ParseString_WebGL(inputString);
+        CalculateRecipes();
     }
 
     private void OnCalculationTypeChanged(int index)
