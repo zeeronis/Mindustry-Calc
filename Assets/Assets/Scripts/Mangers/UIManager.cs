@@ -111,6 +111,7 @@ public class UIManager : MonoBehaviour
     private void UpdateRecipesList(string resourceName)
     {
         availableRecipes = entitiesDB.GetRecipes(resourceName);
+        selectedRecipeIndex = 0;
 
         if (availableRecipes != null && availableRecipes.Count > 0)
         {
@@ -118,6 +119,7 @@ public class UIManager : MonoBehaviour
             recipesView.gameObject.SetActive(true);
 
             recipesView.Init(availableRecipes);
+            blockInfo.Init(availableRecipes[selectedRecipeIndex]);
         }
         else
         {
