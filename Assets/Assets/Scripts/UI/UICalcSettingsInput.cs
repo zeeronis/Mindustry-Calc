@@ -47,9 +47,14 @@ public class UICalcSettingsInput : MonoBehaviour
             return;
 
         if (inputString == "")
-            inputString = "0";
+        {
+            ItemsCount = 0;
+        }
+        else
+        {
+            ItemsCount = ParseString_WebGL(inputString);
+        }
 
-        ItemsCount = ParseString_WebGL(inputString);
         OnSettingsChanged?.Invoke();
     }
 
