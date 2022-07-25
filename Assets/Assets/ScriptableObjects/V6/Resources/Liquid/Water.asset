@@ -10,8 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fc7d3d4a5fec14c4fa949217865f4c49, type: 3}
-  m_Name: Lead
+  m_Name: Water
   m_EditorClassIdentifier: 
-  name: Lead
-  sprite: {fileID: 21300000, guid: 73f24a232140bd04d888e3e423e6feb5, type: 3}
-  isLiquid: 0
+  name: Water
+  sprite: {fileID: 21300000, guid: 51646c8019359824387e8386beb27fa9, type: 3}
+  isLiquid: 1
+  isBaseResource: 1

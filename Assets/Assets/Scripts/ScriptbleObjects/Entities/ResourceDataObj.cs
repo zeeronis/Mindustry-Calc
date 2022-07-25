@@ -5,6 +5,8 @@ public class ResourceDataObj : EntityDataObj
 {
     [Header("Resource Data")]
     [SerializeField] bool isLiquid;
+    [SerializeField] bool isBaseResource;
 
     public bool IsLiquid => isLiquid;
+    public bool IsBaseResource => isBaseResource;
 }

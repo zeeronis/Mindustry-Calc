@@ -6,38 +6,33 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
-    [SerializeField] private EntitiesDatabaseObject entitiesDatabase;
+    [SerializeField] private EntitiesDatabaseObject entitiesDB;
     [Space]
-    [SerializeField] private TMP_InputField resCountInputField;
-    [SerializeField] private TMP_Dropdown resourcesDropDown;
-    [SerializeField] private TMP_Dropdown calcTypeDropDown;
+    //[SerializeField] private TMP_InputField resCountInputField;
+    //[SerializeField] private TMP_Dropdown resourcesDropDown;
+    //[SerializeField] private TMP_Dropdown calcTypeDropDown;
+    [SerializeField] private UICalcSettingsInput calcSettingsInput;
     [Space]
     [SerializeField] private UIBlockFullInfoView blockInfo;
     [SerializeField] private UICalcResultView calcResultPanel;
     [SerializeField] private UIRecipesView recipesView;
 
 
-    private float itemsCount = 0;
-    private int selectedResourceIndex = 0;
     private int selectedRecipeIndex = 0;
-    private CalculationType calculationType;
+    private string selectedResourceName;
 
-    private List<BlockDataObj> recipes;
-    private ResourcesCalculator resourcesCalculator;
+    private List<BlockDataObj> availableRecipes;
+    private ResourcesCalculator calculator;
 
 
     private void Awake()
     {
-        entitiesDatabase.Init();
-        Init(entitiesDatabase.Resources);
+        entitiesDB.Init();
+        calculator = new ResourcesCalculator(entitiesDB);
 
         recipesView.OnItemChanged += OnRecipeItemChanged;
-        resCountInputField.onValueChanged.AddListener(OnResourceValueChanged);
-        resourcesDropDown.onValueChanged.AddListener(OnResourceTypeChanged);
-        calcTypeDropDown.onValueChanged.AddListener(OnCalculationTypeChanged);
+        calcSettingsInput.OnSettingsChanged += CalcSettingsInput_OnSettingsChanged;
 
-        resourcesCalculator = new ResourcesCalculator(entitiesDatabase);
-        
         blockInfo.gameObject.SetActive(true);
         recipesView.gameObject.SetActive(true);
         calcResultPanel.gameObject.SetActive(false);
@@ -45,55 +40,88 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
-        OnResourceTypeChanged(0);
-    }
-
-
-    public void Init(ResourceDataObj[] resourcesList)
-    {
-        resourcesDropDown.ClearOptions();
-        calcTypeDropDown.ClearOptions();
-
-
-        var optionsList = new List<TMP_Dropdown.OptionData>();
-        foreach (ResourceDataObj resDataObj in resourcesList)
-        {
-            optionsList.Add(new TMP_Dropdown.OptionData(resDataObj.Name, resDataObj.Sprite));
-        }
-
-        resourcesDropDown.AddOptions(optionsList);
-        
-        
-        optionsList.Clear();
-        foreach (var itemName in Enum.GetNames(typeof(CalculationType)))
-        {
-            optionsList.Add(new TMP_Dropdown.OptionData(itemName));
-        }
-
-        calcTypeDropDown.AddOptions(optionsList);
+        calcSettingsInput.Init(entitiesDB.Resources);
     }
 
     private bool CanCalculateRecipe()
     {
-        if (selectedRecipeIndex < recipes.Count)
+        if (selectedRecipeIndex < availableRecipes.Count &&
+            calcSettingsInput.ItemsCount > 0)
             return true;
 
         return false;
     }
 
-    private void CalculateRecipes()
+    private void CalcTotalResources(Dictionary<ResourceDataObj, float> totalList, in CalculationResult calculationResult)
+    {
+        foreach (var itemStack in calculationResult.inputResources)
+        {
+            var resourceData = itemStack.resourceData;
+            if (resourceData.IsBaseResource)
+            {
+                if (!totalList.ContainsKey(resourceData))
+                    totalList[resourceData] = 0;
+
+                totalList[resourceData] += itemStack.count;
+            }
+            else
+            {
+                var recipe = entitiesDB.GetRecipes(resourceData.Name)[0];
+                var calcResult = calculator.CalculateByOutputResourceCount(recipe, itemStack.count);
+
+                CalcTotalResources(totalList, in calcResult);
+            }
+        }
+    }
+
+    private void CalculateRecipe()
     {
         if (!CanCalculateRecipe())
             return;
 
-        CalculationResult calcResult = calculationType == CalculationType.Resources
-            ? resourcesCalculator.CalculateByOutputResourceCount(recipes[selectedRecipeIndex], itemsCount)
-            : resourcesCalculator.CalculateByBlocksCount(recipes[selectedRecipeIndex], (int)itemsCount);
+        CalculationResult calcResult = calcSettingsInput.CalcType == CalculationType.Resources
+            ? calculator.CalculateByOutputResourceCount(availableRecipes[selectedRecipeIndex], calcSettingsInput.ItemsCount)
+            : calculator.CalculateByBlocksCount(availableRecipes[selectedRecipeIndex], (int)calcSettingsInput.ItemsCount);
 
         if (calcResult.recipeBlockData != null)
         {
+            // test 
+            if (calcResult.inputResources?.Length > 0)
+            {
+                var totalResources = new Dictionary<ResourceDataObj, float>();
+                CalcTotalResources(totalResources, in calcResult);
+
+                var debugStr = "";
+                foreach (var item in totalResources)
+                {
+                    debugStr += $"{item.Key.Name}: {item.Value}\r\n";
+                }
+
+                Debug.LogWarning(debugStr);
+            }
+            // end test
+
             calcResultPanel.gameObject.SetActive(true);
             calcResultPanel.Init(calcResult);
+        }
+    }
+
+    private void UpdateRecipesList(string resourceName)
+    {
+        availableRecipes = entitiesDB.GetRecipes(resourceName);
+
+        if (availableRecipes != null && availableRecipes.Count > 0)
+        {
+            blockInfo.gameObject.SetActive(true);
+            recipesView.gameObject.SetActive(true);
+
+            recipesView.Init(availableRecipes);
+        }
+        else
+        {
+            blockInfo.gameObject.SetActive(false);
+            recipesView.gameObject.SetActive(false);
+            Debug.LogWarning($"No recipes found for {resourceName} resource");
         }
     }
 
@@ -101,59 +129,20 @@ public class UIManager : MonoBehaviour
     {
         selectedRecipeIndex = index;
 
-        blockInfo.Init(recipes[selectedRecipeIndex]);
-        CalculateRecipes();
+        blockInfo.Init(availableRecipes[selectedRecipeIndex]);
+        CalculateRecipe();
     }
 
-    private float ParseString_WebGL(string input)
+
+    private void CalcSettingsInput_OnSettingsChanged()
     {
-        input = input.Replace('.', ',');
-
-        int pos = input.IndexOf(",");
-        if (pos < 0) 
-            return float.Parse(input);
-
-        int power = input.Length - pos - 1;
-
-        float value = float.Parse(input.Remove(pos, 1));
-        float divideBy = Mathf.Pow(10, power);
-
-        return value / divideBy;
-    }
-
-    private void OnResourceValueChanged(string inputString)
-    {
-        itemsCount = ParseString_WebGL(inputString);
-        CalculateRecipes();
-    }
-
-    private void OnCalculationTypeChanged(int index)
-    {
-        calculationType = (CalculationType)index;
-        CalculateRecipes();
-    }
-
-    private void OnResourceTypeChanged(int selectedIndex)
-    {
-        selectedResourceIndex = selectedIndex;
-
-        recipes = entitiesDatabase.GetRecipes(selectedResourceIndex);
-
-        if (recipes != null && recipes.Count > 0)
+        var resourceName = calcSettingsInput.SelectedResourceName;
+        if (selectedResourceName != resourceName)
         {
-            blockInfo.gameObject.SetActive(true);
-            recipesView.gameObject.SetActive(true);
-
-            recipesView.Init(recipes);
-
-            OnRecipeItemChanged(0);
+            selectedResourceName = resourceName;
+            UpdateRecipesList(resourceName);
         }
-        else
-        {
-            blockInfo.gameObject.SetActive(false);
-            recipesView.gameObject.SetActive(false);
-            Debug.LogWarning($"No recipes found for {entitiesDatabase.Resources[selectedResourceIndex].Name} resource");
-        }
+
+        CalculateRecipe();
     }
-
 }

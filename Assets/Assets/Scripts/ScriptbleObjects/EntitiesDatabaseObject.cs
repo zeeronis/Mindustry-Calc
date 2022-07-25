@@ -47,10 +47,18 @@ public class EntitiesDatabaseObject : ScriptableObject
         }
     }
 
-    public List<BlockDataObj> GetRecipes(int resourceIndex)
+    public List<BlockDataObj> GetRecipes(string resourceName)
     {
-        return GetRecipes(resources[resourceIndex]);
+        foreach (var item in resources)
+        {
+            if (item.Name == resourceName)
+                return GetRecipes(item);
+        }
+
+        return null;
     }
+
+
 
     public List<BlockDataObj> GetRecipes(ResourceDataObj resourceDataObj)
     {
