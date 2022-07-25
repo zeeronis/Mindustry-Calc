@@ -14,3 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Pyratite
   sprite: {fileID: 21300000, guid: 2377c1f8336fda84d98ba2fbae9b63e7, type: 3}
+  isLiquid: 0
+  isBaseResource: 0

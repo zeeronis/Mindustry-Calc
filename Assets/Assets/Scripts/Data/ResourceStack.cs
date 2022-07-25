@@ -8,6 +8,12 @@ public struct ResourceStack
     [Min(0)] public float count;
 
 
+    public ResourceStack(ResourceDataObj resourceData, float count)
+    {
+        this.resourceData = resourceData;
+        this.count = count;
+    }
+
     public ResourceStack Clone()
     {
         return new ResourceStack()

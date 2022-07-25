@@ -46,6 +46,9 @@ public class UICalcSettingsInput : MonoBehaviour
         if (inputString == "-")
             return;
 
+        if (inputString == "")
+            inputString = "0";
+
         ItemsCount = ParseString_WebGL(inputString);
         OnSettingsChanged?.Invoke();
     }
@@ -72,10 +75,10 @@ public class UICalcSettingsInput : MonoBehaviour
         var optionsList = new List<TMP_Dropdown.OptionData>();
         foreach (ResourceDataObj resDataObj in resourcesList)
         {
-            if (resDataObj.IsBaseResource && !resDataObj.IsLiquid)
+            if (resDataObj.IsRawResource && !resDataObj.IsLiquid)
                 continue;
 
-            optionsList.Add(new TMP_Dropdown.OptionData(resDataObj.Name, resDataObj.Sprite));
+            optionsList.Add(new TMP_Dropdown.OptionData(resDataObj.EntityName, resDataObj.Sprite));
         }
 
         resourcesDropDown.AddOptions(optionsList);

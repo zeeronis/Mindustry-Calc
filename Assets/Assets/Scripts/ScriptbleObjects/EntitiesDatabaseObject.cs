@@ -32,7 +32,7 @@ public class EntitiesDatabaseObject : ScriptableObject
             foreach (ResourceStack liquidRes in pump.AvailableFluids)
             {
                 recipes.Add(new BlockDataObj(
-                    pump.Name,
+                    pump.EntityName,
                     pump.Sprite,
                     System.Array.Empty<ResourceStack>(),
                     liquidRes,
@@ -51,7 +51,7 @@ public class EntitiesDatabaseObject : ScriptableObject
     {
         foreach (var item in resources)
         {
-            if (item.Name == resourceName)
+            if (item.EntityName == resourceName)
                 return GetRecipes(item);
         }
 

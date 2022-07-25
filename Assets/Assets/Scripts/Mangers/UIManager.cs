@@ -16,6 +16,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private UIBlockFullInfoView blockInfo;
     [SerializeField] private UICalcResultView calcResultPanel;
     [SerializeField] private UIRecipesView recipesView;
+    [SerializeField] private UITotalRawResources totalRawResources;
 
 
     private int selectedRecipeIndex = 0;
@@ -46,7 +47,7 @@ public class UIManager : MonoBehaviour
     private bool CanCalculateRecipe()
     {
         if (selectedRecipeIndex < availableRecipes.Count &&
-            calcSettingsInput.ItemsCount > 0)
+            calcSettingsInput.ItemsCount >= 0)
             return true;
 
         return false;
@@ -57,7 +58,7 @@ public class UIManager : MonoBehaviour
         foreach (var itemStack in calculationResult.inputResources)
         {
             var resourceData = itemStack.resourceData;
-            if (resourceData.IsBaseResource)
+            if (resourceData.IsRawResource)
             {
                 if (!totalList.ContainsKey(resourceData))
                     totalList[resourceData] = 0;
@@ -66,7 +67,7 @@ public class UIManager : MonoBehaviour
             }
             else
             {
-                var recipe = entitiesDB.GetRecipes(resourceData.Name)[0];
+                var recipe = entitiesDB.GetRecipes(resourceData.EntityName)[0];
                 var calcResult = calculator.CalculateByOutputResourceCount(recipe, itemStack.count);
 
                 CalcTotalResources(totalList, in calcResult);
@@ -91,13 +92,14 @@ public class UIManager : MonoBehaviour
                 var totalResources = new Dictionary<ResourceDataObj, float>();
                 CalcTotalResources(totalResources, in calcResult);
 
-                var debugStr = "";
+                var rawResourcesList = new List<ResourceStack>();
                 foreach (var item in totalResources)
                 {
-                    debugStr += $"{item.Key.Name}: {item.Value}\r\n";
+                    rawResourcesList.Add(new ResourceStack(
+                        item.Key, item.Value));
                 }
 
-                Debug.LogWarning(debugStr);
+                totalRawResources.Init(rawResourcesList.ToArray());
             }
             // end test
 

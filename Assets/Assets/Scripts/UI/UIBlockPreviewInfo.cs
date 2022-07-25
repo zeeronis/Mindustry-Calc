@@ -19,7 +19,7 @@ public class UIBlockPreviewInfo: MonoBehaviour, IPointerClickHandler
         this.itemIndex = itemIndex;
 
         blockImage.sprite = blockData.Sprite;
-        blockNameText.text = blockData.Name;
+        blockNameText.text = blockData.EntityName;
     }
 
     public void SetIsSelected(bool isSelected)

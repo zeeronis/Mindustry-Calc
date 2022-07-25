@@ -8,7 +8,7 @@ public class EntityDataObj : ScriptableObject
     [SerializeField] private Sprite sprite;
 
     public int ID { get; private set; }
-    public string Name => name;
+    public string EntityName => name;
     public Sprite Sprite => sprite;
 
 

@@ -15,3 +15,4 @@ MonoBehaviour:
   name: Cryofluid
   sprite: {fileID: 21300000, guid: 90d53d6ed17f2ba4eb21218351662787, type: 3}
   isLiquid: 1
+  isBaseResource: 0

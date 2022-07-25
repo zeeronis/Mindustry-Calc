@@ -21,7 +21,7 @@ public class UIBlockFullInfoView : MonoBehaviour
     public void Init(BlockDataObj blockDataObj)
     {
         blockImage.sprite = blockDataObj.Sprite;
-        blockNameText.text = blockDataObj.Name;
+        blockNameText.text = blockDataObj.EntityName;
         productionTimeText.text = $"Production Time: {blockDataObj.ProduceTime} sec";
 
         if (blockDataObj.InputEnergy == 0)

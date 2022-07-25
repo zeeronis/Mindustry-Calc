@@ -14,3 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Silicon
   sprite: {fileID: 21300000, guid: 6c15f250ca4c74547ada9830b381db67, type: 3}
+  isLiquid: 0
+  isBaseResource: 0

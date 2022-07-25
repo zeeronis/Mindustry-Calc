@@ -14,3 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Spore Pod
   sprite: {fileID: 21300000, guid: b7cd09c254769cb46b1266b8bec428d5, type: 3}
+  isLiquid: 0
+  isBaseResource: 0

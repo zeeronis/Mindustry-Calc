@@ -14,3 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Phase Fabric
   sprite: {fileID: 21300000, guid: da6a6dd9cd57c2840b93d383b5d66945, type: 3}
+  isLiquid: 0
+  isBaseResource: 0

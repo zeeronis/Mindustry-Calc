@@ -8,5 +8,5 @@ public class ResourceDataObj : EntityDataObj
     [SerializeField] bool isBaseResource;
 
     public bool IsLiquid => isLiquid;
-    public bool IsBaseResource => isBaseResource;
+    public bool IsRawResource => isBaseResource;
 }

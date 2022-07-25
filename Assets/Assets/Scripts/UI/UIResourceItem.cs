@@ -12,7 +12,7 @@ public class UIResourceItem : MonoBehaviour
     public void Init(ResourceStack resourceStack)
     {
         countText.text = System.Math.Round(resourceStack.count, 2).ToString().Replace(',', '.');
-        nameText.text = resourceStack.resourceData.Name;
+        nameText.text = resourceStack.resourceData.EntityName;
         resourceImage.sprite = resourceStack.resourceData.Sprite;
     }
 }

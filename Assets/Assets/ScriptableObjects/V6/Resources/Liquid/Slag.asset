@@ -15,3 +15,4 @@ MonoBehaviour:
   name: Slag
   sprite: {fileID: 21300000, guid: 6b21875bdfe39394195506838f24d7e3, type: 3}
   isLiquid: 1
+  isBaseResource: 0
